@@ -1,7 +1,5 @@
-import type { NextPage } from 'next';
+import Table from '../components/Table';
 
-const Home: NextPage = () => {
-  return <h1>hre</h1>;
-};
-
-export default Home;
+export default function Home() {
+  return <Table />;
+}
