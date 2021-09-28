@@ -12,8 +12,10 @@ import {
 } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 import { RiAddFill, RiArrowRightUpLine } from 'react-icons/ri';
+import { useAddAccountDialog } from '../../context';
 
 export const TableActions = () => {
+  const [, setAddAcountDialogIsOpen] = useAddAccountDialog();
   return (
     <Stack
       spacing="4"
@@ -23,39 +25,30 @@ export const TableActions = () => {
       <HStack>
         <FormControl minW={{ md: '320px' }} id="search">
           <InputGroup size="sm">
-            <FormLabel srOnly>Filter by name or email</FormLabel>
+            <FormLabel srOnly>Filter by name or wallet</FormLabel>
             <InputLeftElement pointerEvents="none" color="gray.400">
               <BsSearch />
             </InputLeftElement>
             <Input
               rounded="base"
               type="search"
-              placeholder="Filter by name or email..."
+              placeholder="Filter by name or wallet..."
             />
           </InputGroup>
         </FormControl>
-        <Select
-          w={{ base: '300px', md: 'unset' }}
-          rounded="base"
-          size="sm"
-          placeholder="All roles"
-        >
-          <option>All roles</option>
-          <option>UI Designers</option>
-          <option>Marketing Directors</option>
+        <Select rounded="base" size="sm" placeholder="Sort">
+          <option>Most recent</option>
         </Select>
       </HStack>
-      <ButtonGroup size="sm" variant="outline">
-        <Button iconSpacing="1" leftIcon={<RiAddFill fontSize="1.25em" />}>
-          New member
-        </Button>
-        <Button
-          iconSpacing="1"
-          leftIcon={<RiArrowRightUpLine fontSize="1.25em" />}
-        >
-          Export CSV
-        </Button>
-      </ButtonGroup>
+      <Button
+        size="sm"
+        variant="outline"
+        iconSpacing="1"
+        leftIcon={<RiAddFill fontSize="1.25em" />}
+        onClick={() => setAddAcountDialogIsOpen(true)}
+      >
+        New account
+      </Button>
     </Stack>
   );
 };

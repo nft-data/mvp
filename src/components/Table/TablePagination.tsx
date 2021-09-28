@@ -11,7 +11,7 @@ export const TablePagination = () => {
   return (
     <Flex align="center" justify="space-between">
       <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
-        {data.length} members
+        {data.length} accounts
       </Text>
       <ButtonGroup variant="outline" size="sm">
         <Button as="a" rel="prev">

@@ -1,61 +1,92 @@
-import { Badge } from '@chakra-ui/react';
-import { User } from './User';
+import { Badge, Box, Img, Stack } from '@chakra-ui/react';
+
+interface UserProps {
+  data: {
+    image: string;
+    item: string;
+    project: string;
+  };
+}
+
+const User = (props: UserProps) => {
+  const { image, item, project } = props.data;
+  return (
+    <Stack direction="row" spacing="4" align="center">
+      <Box flexShrink={0} h="10" w="10">
+        <Img
+          objectFit="cover"
+          htmlWidth="160px"
+          htmlHeight="160px"
+          w="10"
+          h="10"
+          rounded="full"
+          src={image}
+          alt=""
+        />
+      </Box>
+      <Box>
+        <Box fontSize="sm" fontWeight="medium">
+          {item}
+        </Box>
+        <Box fontSize="sm" color="gray.500">
+          {project}
+        </Box>
+      </Box>
+    </Stack>
+  );
+};
 
 export const data = [
   {
-    role: 'Admin',
-    status: 'active',
+    account: 'Soby',
+    status: 'bought',
     earned: '$45,000',
-    id: 'blog',
+    chain: 'ETH',
     user: {
-      image:
-        'https://images.unsplash.com/photo-1512485694743-9c9538b4e6e0?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NDN8fGd1eSUyMGZhY2V8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60',
-      name: 'Marion Watson',
-      email: 'codyfisher@example.com',
+      image: 'https://d2ekshiy7r5vl7.cloudfront.net/163000007.png',
+      item: 'Meridian #548',
+      project: 'Art Blocks Playground',
     },
   },
   {
-    role: 'Marketing Director',
-    status: 'reviewing',
+    account: 'Comfygang',
+    status: 'transfer',
     earned: '$4,840',
-    id: 'home',
+    chain: 'XYZ',
     user: {
-      image:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-      name: 'Louise Hopkins',
-      email: 'jane@example.com',
+      image: 'https://d2ekshiy7r5vl7.cloudfront.net/163000007.png',
+      item: 'Meridian #548',
+      project: 'Art Blocks Playground',
     },
   },
   {
-    role: 'Front Desk Officer',
-    status: 'declined',
-    id: 'design-system',
+    account: 'Trill',
+    status: 'sold',
     earned: '$89,054',
+    chain: 'SOL',
     user: {
-      image:
-        'https://images.unsplash.com/photo-1470506028280-a011fb34b6f7?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjN8fGxhZHklMjBmYWNlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60',
-      name: 'Susan Schwartz',
-      email: 'jenyzx@example.com',
+      image: 'https://d2ekshiy7r5vl7.cloudfront.net/163000007.png',
+      item: 'Meridian #548',
+      project: 'Art Blocks Playground',
     },
   },
   {
-    role: 'Lead Software Engineer',
-    status: 'active',
+    account: 'PixelVault',
+    status: 'bought',
     earned: '$19,954',
-    id: 'home-2',
+    chain: 'ETH',
     user: {
-      image:
-        'https://images.unsplash.com/photo-1533674689012-136b487b7736?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mjl8fGFmcmljYSUyMGxhZHklMjBmYWNlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60',
-      name: 'Sade Akinlade',
-      email: 'melyb@example.com',
+      image: 'https://d2ekshiy7r5vl7.cloudfront.net/163000007.png',
+      item: 'Meridian #548',
+      project: 'Art Blocks Playground',
     },
   },
 ];
 
 const badgeEnum: Record<string, string> = {
-  active: 'green',
-  reviewing: 'orange',
-  declined: 'red',
+  bought: 'green',
+  transfer: 'orange',
+  sold: 'red',
 };
 
 export const columns = [
@@ -67,8 +98,12 @@ export const columns = [
     },
   },
   {
-    Header: 'Role',
-    accessor: 'role',
+    Header: 'Account',
+    accessor: 'account',
+  },
+  {
+    Header: 'Chain',
+    accessor: 'chain',
   },
   {
     Header: 'Status',
@@ -82,7 +117,7 @@ export const columns = [
     },
   },
   {
-    Header: 'Amount Earned',
+    Header: 'Unit price',
     accessor: 'earned',
   },
 ];
