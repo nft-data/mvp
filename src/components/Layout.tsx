@@ -7,8 +7,8 @@ import Header from './Header';
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <Box>
-      <Header />
-      <Box mt="5rem">{children}</Box>
+      {/* <Header /> */}
+      <Box>{children}</Box>
       <Dialogs />
     </Box>
   );

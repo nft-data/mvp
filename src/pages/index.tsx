@@ -1,5 +1,5 @@
-import Table from '../components/Table';
+import Main from './Main';
 
 export default function Home() {
-  return <Table />;
+  return <Main />;
 }
