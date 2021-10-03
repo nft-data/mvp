@@ -12,9 +12,13 @@ const LayoutContext = createContext<
   [
     {
       addAccountDialogIsOpen: any;
+      detailsDialogIsOpen: any;
+      selectedAsset: any;
     },
     {
       setAddAccountDialogIsOpen: Dispatch<SetStateAction<any>>;
+      setDetailsDialogIsOpen: Dispatch<SetStateAction<any>>;
+      setSelectedAsset: Dispatch<SetStateAction<any>>;
     },
   ]
 >([{}, {}] as any);
@@ -29,6 +33,8 @@ export default function LayoutProvider({
   children: ReactNode;
 }): JSX.Element {
   const [addAccountDialogIsOpen, setAddAccountDialogIsOpen] = useState(false);
+  const [detailsDialogIsOpen, setDetailsDialogIsOpen] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState(false);
 
   return (
     <LayoutContext.Provider
@@ -36,12 +42,23 @@ export default function LayoutProvider({
         () => [
           {
             addAccountDialogIsOpen,
+            detailsDialogIsOpen,
+            selectedAsset,
           },
           {
             setAddAccountDialogIsOpen,
+            setDetailsDialogIsOpen,
+            setSelectedAsset,
           },
         ],
-        [addAccountDialogIsOpen, setAddAccountDialogIsOpen],
+        [
+          addAccountDialogIsOpen,
+          detailsDialogIsOpen,
+          selectedAsset,
+          setAddAccountDialogIsOpen,
+          setDetailsDialogIsOpen,
+          setSelectedAsset,
+        ],
       )}
     >
       {children}
@@ -53,4 +70,15 @@ export function useAddAccountDialog() {
   const [{ addAccountDialogIsOpen }, { setAddAccountDialogIsOpen }] =
     useLayoutContext();
   return [addAccountDialogIsOpen, setAddAccountDialogIsOpen];
+}
+
+export function useDetailsDialog() {
+  const [{ detailsDialogIsOpen }, { setDetailsDialogIsOpen }] =
+    useLayoutContext();
+  return [detailsDialogIsOpen, setDetailsDialogIsOpen];
+}
+
+export function useSelectedAsset() {
+  const [{ selectedAsset }, { setSelectedAsset }] = useLayoutContext();
+  return [selectedAsset, setSelectedAsset];
 }

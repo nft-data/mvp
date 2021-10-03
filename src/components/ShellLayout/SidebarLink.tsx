@@ -7,18 +7,28 @@ import {
   useColorModeValue as mode,
 } from '@chakra-ui/react';
 import { ReactElement } from 'react';
+import { useRouter } from 'next/router';
 
 interface SidebarLinkProps extends BoxProps {
   icon?: ReactElement;
   avatar?: ReactElement;
+  link: string;
 }
 
 export const SidebarLink = ({
   children,
   icon = <ArrowRight />,
   avatar,
+  link,
   ...rest
 }: SidebarLinkProps) => {
+  const router = useRouter();
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    // router.push(href);
+  };
+
   return (
     <Box
       as="a"
@@ -33,6 +43,8 @@ export const SidebarLink = ({
       className="group"
       fontWeight="medium"
       transition="background .1s ease-out"
+      href={link}
+      onClick={() => router.push(link)}
       {...rest}
     >
       <HStack>

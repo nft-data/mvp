@@ -6,13 +6,15 @@ import {
   useColorModeValue as mode,
 } from '@chakra-ui/react';
 
-interface UserInfoProps {
+export const UserInfo = ({
+  name,
+  image,
+  email,
+}: {
   name: string;
   image?: string;
   email: string;
-}
-
-export const UserInfo = ({ name, image, email }: UserInfoProps) => {
+}) => {
   return (
     <HStack display="inline-flex">
       <Avatar size="sm" name={name} src={image} />

@@ -1,16 +1,13 @@
 import { Box } from '@chakra-ui/react';
-import * as React from 'react';
 import { HiMenu, HiX } from 'react-icons/hi';
-
-interface MobileMenuButtonProps {
-  onClick: () => void;
-  isOpen: boolean;
-}
 
 export const MobileMenuButton = ({
   onClick,
   isOpen,
-}: MobileMenuButtonProps) => {
+}: {
+  onClick: () => void;
+  isOpen: boolean;
+}) => {
   return (
     <Box
       display={{ base: 'block', md: 'none' }}
