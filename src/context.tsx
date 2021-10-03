@@ -14,11 +14,13 @@ const LayoutContext = createContext<
       addAccountDialogIsOpen: any;
       detailsDialogIsOpen: any;
       selectedAsset: any;
+      walletDialogIsOpen: any;
     },
     {
       setAddAccountDialogIsOpen: Dispatch<SetStateAction<any>>;
       setDetailsDialogIsOpen: Dispatch<SetStateAction<any>>;
       setSelectedAsset: Dispatch<SetStateAction<any>>;
+      setWalletDialogIsOpen: Dispatch<SetStateAction<any>>;
     },
   ]
 >([{}, {}] as any);
@@ -35,6 +37,7 @@ export default function LayoutProvider({
   const [addAccountDialogIsOpen, setAddAccountDialogIsOpen] = useState(false);
   const [detailsDialogIsOpen, setDetailsDialogIsOpen] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(false);
+  const [walletDialogIsOpen, setWalletDialogIsOpen] = useState(false);
 
   return (
     <LayoutContext.Provider
@@ -44,11 +47,13 @@ export default function LayoutProvider({
             addAccountDialogIsOpen,
             detailsDialogIsOpen,
             selectedAsset,
+            walletDialogIsOpen,
           },
           {
             setAddAccountDialogIsOpen,
             setDetailsDialogIsOpen,
             setSelectedAsset,
+            setWalletDialogIsOpen,
           },
         ],
         [
@@ -58,6 +63,8 @@ export default function LayoutProvider({
           setAddAccountDialogIsOpen,
           setDetailsDialogIsOpen,
           setSelectedAsset,
+          walletDialogIsOpen,
+          setWalletDialogIsOpen,
         ],
       )}
     >
@@ -81,4 +88,10 @@ export function useDetailsDialog() {
 export function useSelectedAsset() {
   const [{ selectedAsset }, { setSelectedAsset }] = useLayoutContext();
   return [selectedAsset, setSelectedAsset];
+}
+
+export function useWalletDialog() {
+  const [{ walletDialogIsOpen }, { setWalletDialogIsOpen }] =
+    useLayoutContext();
+  return [walletDialogIsOpen, setWalletDialogIsOpen];
 }

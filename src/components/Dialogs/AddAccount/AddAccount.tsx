@@ -19,7 +19,6 @@ import { useAddAccountDialog } from '../../../context';
 export default function AddAccount() {
   const [addAcountDialogIsOpen, setAddAcountDialogIsOpen] =
     useAddAccountDialog();
-  console.log('addAcountDialogIsOpen:', addAcountDialogIsOpen);
 
   const initialRef = useRef<any>();
 

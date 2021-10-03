@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Flex,
-  Heading,
   IconButton,
   Stack,
   Grid,
@@ -10,18 +9,21 @@ import {
   Spinner,
   Tabs,
   TabList,
+  HStack,
+  Button,
   TabPanels,
   Tab,
   TabPanel,
   Text,
 } from '@chakra-ui/react';
 import { FiPlusCircle } from 'react-icons/fi';
-import * as React from 'react';
 import {
   BsFillBookmarksFill,
   BsFillInboxFill,
   BsPencilSquare,
 } from 'react-icons/bs';
+import { shortenAddress } from '../../utils';
+
 import Card from '../Card';
 import { data } from './_data';
 import { MobileMenuButton } from './MobileMenuButton';
@@ -30,25 +32,37 @@ import { ScrollArea } from './ScrollArea';
 import { SearchInput } from './SearchInput';
 import { SidebarLink } from './SidebarLink';
 import { useMobileMenuState } from './useMobileMenuState';
-import { UserInfo } from './UserInfo';
-import { useAddAccountDialog } from '../../context';
+import { useAddAccountDialog, useWalletDialog } from '../../context';
+import { useWeb3React } from '@web3-react/core';
+import Panel from './Panel';
+import { useState, useEffect } from 'react';
 
 export default function App() {
-  const { isOpen, toggle } = useMobileMenuState();
   const [addAccontDialogIsOpen, setAddAccontDialogIsOpen] =
     useAddAccountDialog();
 
-  const assets = [
-    {
-      image: '',
-      collection: '',
-      title: 'The Showcase',
-      price: '6.18 ',
-      link: 'https://superrare.com/artwork-v2/the-showcase-21515',
-      creator: 'waarp',
-    },
-    { image: '', collection: '', title: '', price: '', link: '' },
-  ];
+  const { account, library, chainId, connector } = useWeb3React();
+
+  const [, setWalletDialogIsOpen] = useWalletDialog();
+  const [ENSName, setENSName] = useState('');
+  useEffect(() => {
+    if (library && account) {
+      let stale = false;
+      library
+        .lookupAddress(account)
+        .then((name: string | null) => {
+          if (!stale && typeof name === 'string') {
+            if (name.length > 12) setENSName(name.substr(0, 8) + '...');
+            else setENSName(name);
+          }
+        })
+        .catch(() => {});
+      return (): void => {
+        stale = true;
+        setENSName('');
+      };
+    }
+  }, [library, account, chainId]);
 
   return (
     <Flex
@@ -69,18 +83,43 @@ export default function App() {
         position="fixed"
       >
         <Box fontSize="sm" lineHeight="tall">
-          <Box
-            as="a"
-            href="#"
-            p="3"
-            display="block"
-            transition="background 0.1s"
-            rounded="xl"
-            _hover={{ bg: 'whiteAlpha.200' }}
-            whiteSpace="nowrap"
-          >
-            <UserInfo name="User" email="user@test.com" />
-          </Box>
+          {account ? (
+            <Box
+              onClick={() => setWalletDialogIsOpen(true)}
+              cursor="pointer"
+              p="3"
+              display="block"
+              transition="background 0.1s"
+              rounded="xl"
+              _hover={{ bg: 'whiteAlpha.200' }}
+              whiteSpace="nowrap"
+            >
+              <HStack display="inline-flex">
+                <Avatar size="sm" name="User" src="" />
+                <Box lineHeight="1">
+                  <Text fontWeight="semibold">
+                    {ENSName || (account && `${shortenAddress(account)}`)}
+                  </Text>
+                  <Text
+                    fontSize="xs"
+                    mt="1"
+                    color={mode('whiteAlpha.700', 'gray.400')}
+                  >
+                    user@test.com
+                  </Text>
+                </Box>
+              </HStack>
+            </Box>
+          ) : (
+            <Box p="3">
+              <Button
+                onClick={() => setWalletDialogIsOpen(true)}
+                colorScheme="purple"
+              >
+                Connect wallet
+              </Button>
+            </Box>
+          )}
           <ScrollArea pt="5" pb="6">
             {/* <SidebarLink
               display={{ base: 'block', lg: 'none' }}
@@ -144,104 +183,7 @@ export default function App() {
           </ScrollArea>
         </Box>
       </Box>
-      <Box
-        flex="1"
-        p={{ base: '0', md: '6' }}
-        marginStart={{ md: 'var(--sidebar-width)' }}
-        position="relative"
-        left={isOpen ? 'var(--sidebar-width)' : '0'}
-        transition="left 0.2s"
-      >
-        <Box
-          maxW="2560px"
-          bg={mode('white', 'gray.700')}
-          height="100%"
-          pb="6"
-          rounded={{ md: 'lg' }}
-        >
-          <Flex direction="column" height="full">
-            <Flex
-              w="full"
-              py="4"
-              justify="space-between"
-              align="center"
-              px="10"
-            >
-              <Flex align="center" minH="8">
-                <MobileMenuButton onClick={toggle} isOpen={isOpen} />
-                <NavBreadcrumb />
-              </Flex>
-              <SearchInput />
-            </Flex>
-            <Flex direction="column" flex="1" overflow="auto" px="10" pt="8">
-              <Tabs isFitted>
-                <TabList mb="1em">
-                  <Tab>Activity</Tab>
-                  <Tab>Collected</Tab>
-                </TabList>
-                <TabPanels>
-                  <TabPanel>
-                    <p>Activity</p>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <Grid
-                      columns={{ base: 1, md: 3 }}
-                      spacing="4"
-                      // px="0.75rem"
-                      overflow="scroll"
-                    >
-                      {assets ? (
-                        assets?.map((asset, i) => (
-                          <Card asset={asset} key={i} />
-                        ))
-                      ) : (
-                        <Spinner />
-                      )}
-                    </Grid>
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
-              {/* <Heading size="md" fontWeight="extrabold" mb="6">
-                Activity Feed
-              </Heading> */}
-
-              {/* <Grid templateColumns="repeat(3, 1fr)" gap={6} overflow="scroll">
-                <Box w="100%" h="50" bg="blue.500" onClick={} />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-                <Box w="100%" h="50" bg="blue.500" />
-              </Grid> */}
-            </Flex>
-          </Flex>
-        </Box>
-      </Box>
+      <Panel />
     </Flex>
   );
 }

@@ -26,7 +26,7 @@ interface IProps {
   disableClose?: boolean;
   size?: string;
   maxW?: string;
-  props: any;
+  // props: any;
 }
 
 export default function Dialog({
