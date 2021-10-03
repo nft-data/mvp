@@ -14,6 +14,7 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  DarkMode,
   Text,
 } from '@chakra-ui/react';
 import { FiPlusCircle } from 'react-icons/fi';
@@ -27,7 +28,7 @@ import { shortenAddress } from '../../utils';
 import Card from '../Card';
 import { data } from './_data';
 import { MobileMenuButton } from './MobileMenuButton';
-import { NavBreadcrumb } from './NavBreadcrumb';
+import NavBreadcrumb from './NavBreadcrumb';
 import { ScrollArea } from './ScrollArea';
 import { SearchInput } from './SearchInput';
 import { SidebarLink } from './SidebarLink';
@@ -41,7 +42,7 @@ export default function App() {
   const [addAccontDialogIsOpen, setAddAccontDialogIsOpen] =
     useAddAccountDialog();
 
-  const { account, library, chainId, connector } = useWeb3React();
+  const { account, library, chainId } = useWeb3React();
 
   const [, setWalletDialogIsOpen] = useWalletDialog();
   const [ENSName, setENSName] = useState('');
@@ -105,7 +106,7 @@ export default function App() {
                     mt="1"
                     color={mode('whiteAlpha.700', 'gray.400')}
                   >
-                    user@test.com
+                    {/* user@test.com */}-
                   </Text>
                 </Box>
               </HStack>
@@ -129,7 +130,7 @@ export default function App() {
               Search
             </SidebarLink> */}
             <Stack pb="6">
-              <SidebarLink icon={<BsFillInboxFill />} link="/feed">
+              <SidebarLink icon={<BsFillInboxFill />} link="/activity-feed">
                 Activity Feed
               </SidebarLink>
               <SidebarLink icon={<BsFillBookmarksFill />} link="/bookmarks">
@@ -152,21 +153,23 @@ export default function App() {
                 >
                   Wallets
                 </Text>
-                <IconButton
-                  variant="outline"
-                  aria-label="Add account"
-                  size="xs"
-                  color="gray.400"
-                  icon={<FiPlusCircle />}
-                  onClick={() =>
-                    setAddAccontDialogIsOpen(!addAccontDialogIsOpen)
-                  }
-                />
+                <DarkMode>
+                  <IconButton
+                    variant="outline"
+                    aria-label="Add account"
+                    size="xs"
+                    color="gray.400"
+                    icon={<FiPlusCircle />}
+                    onClick={() =>
+                      setAddAccontDialogIsOpen(!addAccontDialogIsOpen)
+                    }
+                  />
+                </DarkMode>
               </Flex>
               {data.users.map((user, index) => (
                 <SidebarLink
                   key={index}
-                  link={user.link}
+                  link={`wallet/${user.link}`}
                   avatar={
                     <Avatar
                       size="xs"

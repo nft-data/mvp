@@ -16,23 +16,26 @@ import { SearchInput } from './SearchInput';
 import Card from '../Card';
 import SignIn from './SignIn';
 import { MobileMenuButton } from './MobileMenuButton';
-import { NavBreadcrumb } from './NavBreadcrumb';
+import NavBreadcrumb from './NavBreadcrumb';
 import { useMobileMenuState } from './useMobileMenuState';
 import { useWeb3React } from '@web3-react/core';
 import { useWalletDialog } from '../../context';
+import { useRouter } from 'next/router';
 
 export default function Panel() {
-  const assets = [
-    {
-      image: '',
-      collection: '',
-      title: 'The Showcase',
-      price: '6.18 ',
-      link: 'https://superrare.com/artwork-v2/the-showcase-21515',
-      creator: 'waarp',
-    },
-    { image: '', collection: '', title: '', price: '', link: '' },
-  ];
+  const router = useRouter();
+
+  function convertToString(path: string) {
+    let newString = path.replace(/-|\s/g, ' ');
+    const capitalize = newString
+      .toLowerCase()
+      .split(' ')
+      .map((word) => {
+        return word[0].toUpperCase() + word.substr(1);
+      })
+      .join(' ');
+    return capitalize;
+  }
 
   const { isOpen, toggle } = useMobileMenuState();
   const { account } = useWeb3React();
@@ -99,7 +102,7 @@ export default function Panel() {
                 </TabPanels>
               </Tabs> */}
               <Heading size="md" fontWeight="extrabold" mb="6">
-                Activity Feed
+                {/* {router && convertToString(router.asPath.substring(1))} */}
               </Heading>
               <Box
                 flex="1"
