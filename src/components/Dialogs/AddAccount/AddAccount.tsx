@@ -1,5 +1,4 @@
 import {
-  useDisclosure,
   Modal,
   Button,
   ModalOverlay,
@@ -11,19 +10,47 @@ import {
   ModalFooter,
   ModalHeader,
   ModalBody,
+  useToast,
 } from '@chakra-ui/react';
+import { useWallets } from '../../../context/data';
 
-import { useRef } from 'react';
-import { useAddAccountDialog } from '../../../context';
+import { useRef, useState } from 'react';
+import { useAddAccountDialog } from '../../../context/layout';
 
 export default function AddAccount() {
   const [addAcountDialogIsOpen, setAddAcountDialogIsOpen] =
     useAddAccountDialog();
+  const [wallets, setWallets] = useWallets();
+  const toast = useToast();
+  const [newWallet, setNewWallet] = useState({
+    name: '',
+    address: '',
+  });
 
   const initialRef = useRef<any>();
 
   function addAccount() {
-    setAddAcountDialogIsOpen(!addAcountDialogIsOpen);
+    try {
+      setWallets([...wallets, newWallet]);
+      toast({
+        title: 'Wallet added',
+        description: 'Now tracking wallet activity',
+        variant: 'left-accent',
+        position: 'bottom-right',
+        status: 'success',
+        isClosable: true,
+      });
+      setAddAcountDialogIsOpen(!addAcountDialogIsOpen);
+    } catch (error: any) {
+      toast({
+        title: 'Failed to add wallet',
+        description: 'Please try again',
+        variant: 'left-accent',
+        position: 'bottom-right',
+        status: 'error',
+        isClosable: true,
+      });
+    }
   }
 
   return (
@@ -39,12 +66,23 @@ export default function AddAccount() {
         <ModalBody pb={6}>
           <FormControl>
             <FormLabel>Account name</FormLabel>
-            <Input ref={initialRef} placeholder="Account name" />
+            <Input
+              ref={initialRef}
+              placeholder="Account name"
+              onChange={(e) =>
+                setNewWallet({ ...newWallet, name: e.target.value })
+              }
+            />
           </FormControl>
 
           <FormControl mt={4}>
             <FormLabel>Wallet address</FormLabel>
-            <Input placeholder="Wallet address" />
+            <Input
+              placeholder="Wallet address"
+              onChange={(e) =>
+                setNewWallet({ ...newWallet, address: e.target.value })
+              }
+            />
           </FormControl>
         </ModalBody>
 

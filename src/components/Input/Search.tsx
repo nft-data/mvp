@@ -11,7 +11,7 @@ interface SearchInputProps extends InputProps {
   rootProps?: InputGroupProps;
 }
 
-export const SearchInput = ({ rootProps, ...rest }: SearchInputProps) => {
+export default function SearchInput({ rootProps, ...rest }: SearchInputProps) {
   return (
     <InputGroup
       maxW="2xs"
@@ -31,4 +31,4 @@ export const SearchInput = ({ rootProps, ...rest }: SearchInputProps) => {
       />
     </InputGroup>
   );
-};
+}

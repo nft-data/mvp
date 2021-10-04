@@ -1,24 +1,65 @@
-import { Box, Heading } from '@chakra-ui/react';
-import { TableActions } from './TableActions';
-import { TableContent } from './TableContent';
-import { TablePagination } from './TablePagination';
+import {
+  Button,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  Box,
+  useColorModeValue as mode,
+} from '@chakra-ui/react';
+import { columns, data } from './_data';
 
-export default function Table() {
+export default function TableComponent() {
   return (
     <Box as="section">
-      <Box
-        maxW={{ base: '6xl', md: '7xl' }}
-        mx="auto"
-        px={{ base: '6', md: '8' }}
-      >
-        {/* <Box overflowX="auto"> */}
-        <Heading size="lg" mb="6">
-          Activity
-        </Heading>
-        <TableActions />
-        <TableContent />
-        <TablePagination />
-        {/* </Box> */}
+      <Box maxW={{ base: '6xl', md: '7xl' }} mx="auto">
+        <Box
+          overflowX="scroll"
+          sx={{
+            '::-webkit-scrollbar': {
+              display: 'none',
+            },
+            scrollbarWidth: 'none',
+          }}
+          borderRadius="md"
+          // border="1px solid #2F3747"
+          my="8"
+        >
+          <Table my="8" borderWidth="1px" fontSize="sm" variant="striped">
+            <Thead bg={mode('gray.50', 'gray.800')}>
+              <Tr whiteSpace="nowrap">
+                {columns.map((column, index) => (
+                  <Th whiteSpace="nowrap" scope="col" key={index}>
+                    {column.Header}
+                  </Th>
+                ))}
+                <Th />
+              </Tr>
+            </Thead>
+            <Tbody>
+              {data.map((row, index) => (
+                <Tr key={index}>
+                  {columns.map((column, index) => {
+                    const cell = row[column.accessor as keyof typeof row];
+                    const element = column.Cell?.(cell) ?? cell;
+                    return (
+                      <Td whiteSpace="nowrap" key={index}>
+                        {element}
+                      </Td>
+                    );
+                  })}
+                  <Td textAlign="right">
+                    <Button variant="link" colorScheme="blue">
+                      View
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
       </Box>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useDetailsDialog, useSelectedAsset } from '../../context';
+import { useDetailsDialog, useSelectedAsset } from '../../context/layout';
 import Card from './Card';
 
 export default function CardContainer({ asset }: { asset: any }) {

@@ -8,25 +8,10 @@ import {
 import { useRouter } from 'next/router';
 import { HiChevronRight } from 'react-icons/hi';
 
-export default function NavBreadcrumb(props: BreadcrumbProps) {
-  const router = useRouter();
-
-  function convertToString(path: string) {
-    let newString = path.replace(/-|\s/g, ' ');
-    const capitalize = newString
-      .toLowerCase()
-      .split(' ')
-      .map((word) => {
-        return word[0].toUpperCase() + word.substr(1);
-      })
-      .join(' ');
-    return capitalize;
-  }
-
+export default function NavBreadcrumb({ page }: { page: any }) {
   return (
     <Breadcrumb
       fontSize="sm"
-      {...props}
       separator={
         <Box
           as={HiChevronRight}
@@ -41,9 +26,7 @@ export default function NavBreadcrumb(props: BreadcrumbProps) {
         <BreadcrumbLink>Welcome</BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbItem color="inherit" isCurrentPage>
-        <BreadcrumbLink>
-          {/* {router && convertToString(router.asPath.substring(1))} */}
-        </BreadcrumbLink>
+        <BreadcrumbLink>{page}</BreadcrumbLink>
       </BreadcrumbItem>
     </Breadcrumb>
   );

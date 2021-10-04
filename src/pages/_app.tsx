@@ -2,7 +2,8 @@ import { ChakraProvider } from '@chakra-ui/react';
 import Head from 'next/head';
 
 import Layout from '../components/Layout';
-import LayoutProvider from '../context';
+import LayoutProvider from '../context/layout';
+import DataProvider from '../context/data';
 import Web3Manager from '../components/Web3Manager';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
@@ -11,7 +12,13 @@ function getLibrary(provider: any): Web3Provider {
   return new Web3Provider(provider);
 }
 
-export default function App({ Component, pageProps }: any) {
+export default function App({
+  Component,
+  pageProps,
+}: {
+  Component: any;
+  pageProps: any;
+}) {
   return (
     <>
       <Head>
@@ -26,9 +33,11 @@ export default function App({ Component, pageProps }: any) {
         <LayoutProvider>
           <ChakraProvider>
             <Web3Manager>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <DataProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </DataProvider>
             </Web3Manager>
           </ChakraProvider>
         </LayoutProvider>

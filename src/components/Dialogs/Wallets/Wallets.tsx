@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import { injected } from '../../../config/connectors';
-import { useWalletDialog } from '../../../context';
+import { useWalletDialog } from '../../../context/layout';
 import { usePrevious } from '../../../hooks';
 import { SUPPORTED_WALLETS } from '../../../utils/supported_wallet';
 import Modal from '../Dialog';

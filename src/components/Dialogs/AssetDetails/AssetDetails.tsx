@@ -7,7 +7,7 @@ import {
   ModalBody,
 } from '@chakra-ui/react';
 
-import { useDetailsDialog } from '../../../context';
+import { useDetailsDialog } from '../../../context/layout';
 
 export default function AssetDetails() {
   const [assetDetailsIsOpen, setAssetDetailsIsOpen] = useDetailsDialog();

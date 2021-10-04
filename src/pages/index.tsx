@@ -1,13 +1,15 @@
-import Main from '../components/ShellLayout';
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+
+// import Main from '../components/ShellLayout';
 
 export default function Home() {
-  return (
-    <>
-      <Main />
-      <Link href="/ninjas/">
-        <a>See Ninja Listing</a>
-      </Link>
-    </>
-  );
+  // return <Main />;
+  const { replace } = useRouter();
+
+  useEffect(() => {
+    replace('/activity-feed');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null;
 }

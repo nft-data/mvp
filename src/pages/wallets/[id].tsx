@@ -1,11 +1,25 @@
+// import { useRouter } from 'next/router';
+
+// export default function Wallet() {
+//   const router = useRouter();
+//   const {
+//     query: { id },
+//   } = router;
+//   return (
+//     <div>
+//       <h1>Details Page</h1>
+//     </div>
+//   );
+// }
+
 export const getStaticPaths = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/users');
   const data = await res.json();
 
   // map data to an array of path objects with params (id)
-  const paths = data.map((ninja: any) => {
+  const paths = data.map((wallet: any) => {
     return {
-      params: { id: ninja.id.toString() },
+      params: { id: wallet.id.toString() },
     };
   });
 
@@ -21,19 +35,15 @@ export const getStaticProps = async (context: any) => {
   const data = await res.json();
 
   return {
-    props: { ninja: data },
+    props: { wallet: data },
   };
 };
 
-const Details = ({ ninja }: any) => {
+export default function Details({ wallet }: any) {
   return (
     <div>
-      <h1>{ninja.name}</h1>
-      <p>{ninja.email}</p>
-      <p>{ninja.website}</p>
-      <p>{ninja.address.city}</p>
+      <h1>{wallet.name}</h1>
+      {/* <p>{wallet.address}</p> */}
     </div>
   );
-};
-
-export default Details;
+}

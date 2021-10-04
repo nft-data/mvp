@@ -8,7 +8,7 @@ interface UserProps {
   };
 }
 
-const User = (props: UserProps) => {
+const Asset = (props: UserProps) => {
   const { image, item, project } = props.data;
   return (
     <Stack direction="row" spacing="4" align="center">
@@ -42,7 +42,7 @@ export const data = [
     status: 'bought',
     earned: '$45,000',
     chain: 'ETH',
-    user: {
+    asset: {
       image: 'https://d2ekshiy7r5vl7.cloudfront.net/163000007.png',
       item: 'Meridian #548',
       project: 'Art Blocks Playground',
@@ -53,7 +53,7 @@ export const data = [
     status: 'transfer',
     earned: '$4,840',
     chain: 'XYZ',
-    user: {
+    asset: {
       image: 'https://d2ekshiy7r5vl7.cloudfront.net/163000007.png',
       item: 'Meridian #548',
       project: 'Art Blocks Playground',
@@ -64,7 +64,7 @@ export const data = [
     status: 'sold',
     earned: '$89,054',
     chain: 'SOL',
-    user: {
+    asset: {
       image: 'https://d2ekshiy7r5vl7.cloudfront.net/163000007.png',
       item: 'Meridian #548',
       project: 'Art Blocks Playground',
@@ -75,7 +75,7 @@ export const data = [
     status: 'bought',
     earned: '$19,954',
     chain: 'ETH',
-    user: {
+    asset: {
       image: 'https://d2ekshiy7r5vl7.cloudfront.net/163000007.png',
       item: 'Meridian #548',
       project: 'Art Blocks Playground',
@@ -91,10 +91,10 @@ const badgeEnum: Record<string, string> = {
 
 export const columns = [
   {
-    Header: 'Member',
-    accessor: 'user',
+    Header: 'Asset',
+    accessor: 'asset',
     Cell: function MemberCell(data: any) {
-      return <User data={data} />;
+      return <Asset data={data} />;
     },
   },
   {
